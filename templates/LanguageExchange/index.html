@@ -1,0 +1,25 @@
+{% extends 'LanguageExchange/base.html' %}
+{% load staticfiles %}
+
+
+
+{% block body_block %}
+<h1>Login to Rango</h1>
+<form id="MyUserAdmin" method="get" action="">
+    {% csrf_token %}
+    Mother_language <input type="text" name="q" value="{{request.GET.q}}" size="50" />
+    {{serch_form.as_ul }}
+    <input type="submit" value="submit" />
+    <br>
+</form>   
+print(results)
+ {{results}}
+{% for result in results %}
+{{result}}
+    <li>{{result.Mother_language}}</li>
+{% endfor %}
+
+</body>
+</html>
+
+{% endblock %}
