@@ -10,17 +10,22 @@
     }
     
     #header{
-        background-color:#fff5c2; 
+        background-color:#fff5c2;
+        width:1650px;        
         #border-style: solid;    
     }
     
     #content{
         margin-top:-22px;
         background-color:#9bd7d5;
+        width:1650px;  
+        height:80%;
     }
     #footer{
         margin-top:-10px;
-        background-color:#119691;   
+        background-color:#119691;
+        height:10%;
+        width:1650px;  
     }
     o{
         clear:both;

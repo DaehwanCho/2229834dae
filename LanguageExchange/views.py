@@ -108,11 +108,11 @@ def user_login(request):
            
             else:
                
-                return HttpResponse("Your Rango account is disabled.")
+                return HttpResponseRedirect(reverse('register'))	
         else:
             
             print("Invalid login details: {0}, {1}".format(username, password))
-            return HttpResponse("Invalid login details supplied.")
+            return HttpResponseRedirect(reverse('register'))	
    
     else:
      
@@ -123,7 +123,7 @@ def user_logout(request):
     # since we know user is already logged in
     logout(request)
     # take user back to homepage
-    return HttpResponseRedirect(reverse('index'))	
+    return HttpResponseRedirect(reverse('register'))	
 
 class MyRegistrationView(RegistrationView):
     def get_success_url(self,user):
@@ -133,12 +133,11 @@ class MyRegistrationView(RegistrationView):
 
 
 def search(request):
-    serch_form =MyUserAdmin(data=request.POST)
+    serch_form =Searchform(data=request.POST)
     result=None
     if request.method == 'POST':
         if serch_form.is_valid():
             results = Searchform.objects.all()
-        
         
 
         search = request.POST.get('q', None)
