@@ -11,7 +11,9 @@
     {{form.as_table}}
     <input type="submit" value="search" />
     <br>
-{% else %}    
+    
+{% else %}
+    
 {% for each_model in Result %}
     
     <div class="panel panel-success" style="margin-left:100px;margin-top:100px;width:400px ;float:right">
@@ -51,30 +53,29 @@
          {% endfor %}
          
          
-         
-   
-   
-         
-         
-      <div class="pagination">
-    <span class="step-links">
-        {% if Result.has_previous %}
-            <a href="?page={{ Result.previous_page_number }}">previous</a>
-        {% endif %}
-        
-
-        <span class="current">
-            Page {{ Result.number }} of {{ Result.paginator.num_pages }}.
-        </span>
-
-        {% if Result.has_next %}
-            <a href="?page={{ Result.previous_page_number }}">next</a>
-        {% endif %}
-    </span>
-</div>         
-         
-         
+   {% if Result.has_other_pages %}
   
+    <ul class="pagination">
+    {% if Result.has_previous %}
+      <li><a href="?page={{ Result.previous_page_number }}&Mother_language={{request.GET.Mother_language}}&Nationality={{request.GET.Nationality}}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in Result.paginator.page_range %}
+      {% if Result.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}&Mother_language={{request.GET.Mother_language}}&Nationality={{request.GET.Nationality}}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if Result.has_next %}
+      <li> <a href="?page={{ Result.next_page_number }}&Mother_language={{request.GET.Mother_language}}&Nationality={{request.GET.Nationality}}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+  
+   {% endif %}
 
 {%endif%}    
 </body>

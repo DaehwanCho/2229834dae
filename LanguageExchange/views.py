@@ -146,10 +146,15 @@ def index(request):
    
     if request.method == "GET" and form.is_valid():
         
+        myuser_qs = MyUser.objects.all()
+        
+        
         Mother_language = form.cleaned_data['Mother_language']
         Nationality = form.cleaned_data['Nationality']
+       
+        myuser_qs=request.GET.get('q')
         
-        myuser_qs = MyUser.objects.filter(Q(Mother_language__contains=Mother_language)|Q(Nationality__contains=Nationality))
+        myuser_qs = MyUser.objects.filter(Q(Mother_language__contains=Mother_language)|Q(Nationality__contains=Nationality)).distinct()
         
         
         paginator = Paginator( myuser_qs, 3)
@@ -163,7 +168,7 @@ def index(request):
             users = paginator.page(paginator.num_pages)
 
         
-        return render(request, "LanguageExchange/user_list.html",{'Result': users,"searched":searched,})
+        return render(request, "LanguageExchange/index.html",{'Result': users,"searched":searched,})
     
 
     return render(request, "LanguageExchange/index.html", { "form": form,"searched":searched})
