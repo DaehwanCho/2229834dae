@@ -1,17 +1,7 @@
-{% extends 'LanguageExchange/base.html' %}
-{% load staticfiles %}
+<table class="table table-bordered">
+ {% block body_block %}
 
 
-
-{% block body_block %}
-
-{% if not searched %}
-<form id="form" method="GET"  action=""enctype="multipart/form-data">
-   
-    {{form.as_table}}
-    <input type="submit" value="search" />
-    <br>
-{% else %}    
 {% for each_model in Result %}
     
     <div class="panel panel-success" style="margin-left:100px;margin-top:100px;width:400px ;float:right">
@@ -51,11 +41,6 @@
          {% endfor %}
          
          
-         
-   
-   
-         
-         
       <div class="pagination">
     <span class="step-links">
         {% if Result.has_previous %}
@@ -73,8 +58,7 @@
     </span>
 </div>         
          
-         
-  
+
 
 {%endif%}    
 </body>

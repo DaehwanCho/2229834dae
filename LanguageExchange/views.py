@@ -4,9 +4,16 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from LanguageExchange.forms import UserCreationForm,UserChangeForm
+from LanguageExchange.forms import UserCreationForm,UserChangeForm,SearchForm,MyUserAdmin,MyUserCreationForm
+from django.db.models import Q
+from LanguageExchange.models import MyUser
 from registration.backends.simple.views import RegistrationView
-
+from django.shortcuts import render_to_response
+from django.template import RequestContext
+from django.contrib import messages
+from django.shortcuts import redirect
+from django import forms
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def about(request):
     
@@ -16,38 +23,36 @@ def contact(request):
    
     return render(request, 'LanguageExchange/contact.html')    
 
-@login_required    
-def index(request):
-    context_dict = {'boldmessage': "Crunchy, creamy, cookie, candy, cupcake!"}
-    return render(request, 'LanguageExchange/index.html', context=context_dict)
+
+  
 
 def register(request):
     registered = False
-
     if request.method == 'POST':
-        user_form = UserCreationForm(data=request.POST)
-        if user_form.is_valid():
+        user_form = MyUserCreationForm(data=request.POST)
+        if user_form.is_valid():       
+           
+                 
+            
             user = user_form.save()
-            # Did the user provide a profile picture?
-            # If so, we need to get it from the input form and
-            # put it in the UserProfile model.
             user.save()
-            if 'picture' in request.FILES:
-                user.picture = request.FILES['picture']
+                
+            if 'Profile_image' in request.FILES:
+                    user.Profile_image = request.FILES['Profile_image']
 
-            # Now we save the UserProfile model instance.
-            user.save()
-            registered = True
+                    user.save()
+                    registered = True
         
         else:
-            print(user_form.errors)
-
+           messages.warning(request, user_form.errors, extra_tags='alert') 
+           
+           return redirect('/LanguageExchange/')
     else:
-        user_form = UserCreationForm()
+        user_form = MyUserCreationForm()
         
     return render(request,
                 'LanguageExchange/register.html',
-                {'user_form': UserCreationForm,
+                {'user_form': user_form,
                 'registered': registered})
 
                 
@@ -107,11 +112,11 @@ def user_login(request):
                 return HttpResponseRedirect(reverse('index'))
            
             else:
-               
+                messages.warning(request, user_form.errors, extra_tags='alert') 
                 return HttpResponseRedirect(reverse('register'))	
         else:
             
-            print("Invalid login details: {0}, {1}".format(username, password))
+            messages.warning(request, user_form.errors, extra_tags='alert') 
             return HttpResponseRedirect(reverse('register'))	
    
     else:
@@ -120,6 +125,7 @@ def user_login(request):
 
 @login_required
 def user_logout(request):
+    print "entered search"
     # since we know user is already logged in
     logout(request)
     # take user back to homepage
@@ -132,26 +138,35 @@ class MyRegistrationView(RegistrationView):
         
 
 
-def search(request):
-    serch_form =Searchform(data=request.POST)
-    result=None
-    if request.method == 'POST':
-        if serch_form.is_valid():
-            results = Searchform.objects.all()
+                
+#@login_required 
+def index(request):
+    searched = False
+    form = SearchForm(request.GET or None) 
+   
+    if request.method == "GET" and form.is_valid():
         
-
-        search = request.POST.get('q', None)
-        if search:
-            results = results.filter(Q(Mother_language=search))
-            result.save()
+        Mother_language = form.cleaned_data['Mother_language']
+        Nationality = form.cleaned_data['Nationality']
         
-            
-        Mother_language = request.POST.get('Mother_language', None)
-        if Mother_language:
-            results = results.filter(Mother_language__icontain=search)    
-            
-       
+        myuser_qs = MyUser.objects.filter(Q(Mother_language__contains=Mother_language)|Q(Nationality__contains=Nationality))
+        
+        
+        paginator = Paginator( myuser_qs, 3)
+        page = request.GET.get('page')
+        searched = True
+        try:
+            users = paginator.page(page)
+        except PageNotAnInteger:
+            users = paginator.page(1)
+        except EmptyPage:
+            users = paginator.page(paginator.num_pages)
 
-        return render_to_response('index.html', {'form': Searchform(request.POST), 'results': results})
+        
+        return render(request, "LanguageExchange/user_list.html",{'Result': users,"searched":searched,})
+    
 
-    return render('index.html', {'form': Searchform, 'results': results})
+    return render(request, "LanguageExchange/index.html", { "form": form,"searched":searched})
+    
+    
+  

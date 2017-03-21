@@ -1,28 +1,50 @@
 {% extends 'LanguageExchange/base.html' %}
 {% load staticfiles %}
-<head>
- <link rel="stylesheet" type="text/css" href={% static "CSS/registerstyle.css"%} >
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+<div class="alert alert-danger" role="alert">
+        <strong>Oh snap!</strong> Change a few things up and try submitting again.
+      </div> 
  </head>
-
-{% block body_block %}
+  <body>
+  {% block body_block %}
+  
+    
     <h1>Register with LanguageExchange</h1>
-   <div class = "logobox"> <img src={% static "images/registerlogo.gif" %} alt="Picture of registerlogo" width=1116px; height=500px;></div> 
-    {% if registered %}
-        <strong>thank you for registering!</strong>
-        <a href="{% url 'index' %}">Return to the homepage.</a><br />
-    {% else %}
+   <div class = "logobox"> <img src={% static "images/registerlogo.gif" %} alt="Profile_image of registerlogo" width=1116px; height=500px;></div> 
+   
+       {% include 'LanguageExchange/messages.html' %}
        <strong><h1>register here!</h1> </strong>
-      <div class = "headmenu>  <form id="user_form" method="post" action="{% url 'register' %}" enctype="multipart/form-data">
+     
+      <form id="user_form" method="post" action="{% url 'register' %}" enctype="multipart/form-data">
         {% csrf_token %}
-
-      <ul><li>
-        {{ user_form.as_p }}</li></ul>
+            
+            
+        {{user_form.as_p}}</br>
+      
        
 
-
         <!-- Provide a button to click to submit the form. -->
-        <input type="submit" name="submit" value="Register" /></div>
+       <button class="btn btn-primary" type="submit">Register</button>
         </form>
-    {% endif %}
+        
     
+        
+       
+   
+    </main>
+    
+       
+   
+  </body>
 {% endblock %}
+
+
+    
+
+</html>

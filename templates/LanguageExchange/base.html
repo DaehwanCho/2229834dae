@@ -1,10 +1,12 @@
 {% load staticfiles %}
 <!DOCTYPE html>
-<html>
-<head lang = "en">
-    <meta charset = "UTF-8" />
-    <link rel="stylesheet" type="text/css" href={% static "CSS/indexstyle.css"%} >
-        {% block title_block%}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+      {% block title_block%}
 
            <title>
            LangaugeEXchange
@@ -25,30 +27,59 @@
 
         {%  endblock %}
     </style>
-</head>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href={% static "css/indexstyle.css"%} >
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
    
-   
-    <body>
+    
+<body>
+
         <div id = page>  
             <div id = header>
                 {% block topmanu_block %}
                     
-                    <div class = logobox  > <img src={% static "images/logo.png" %} alt="Picture of logo" width=250px; height=150px;> </div>
+                    <div class = logobox  > <img src={% static "images/logo.png" %} alt="Profile_image of logo" width=250px; height=150px;> </div>
                     {% if user.is_authenticated %} 
-                    <div class = headMenu  ><t><a href="{% url 'edit' %}">Edit</a></t></div> 
-                    <div class = headMenu  ><t><a href="{% url 'logout' %}">Logout</a></t></div>  
-                    <div class = headMenu ><o>{{ user.username }}</o></div> 
-                    <img src="{{MEDIA_URL}}{{user.picture}}">
-                   
+                
+                    <div class = headMenu style="margin-top:0; font-size:30px; height:auto; overflow:hidden; text-align:center; display:block; margin-left:auto;margin-right:auto"  >
+                        <span class="label label-danger" style="color:white !important;"><a href="{% url 'logout' %}">
+                            LOG-OUT
+                                </a>
+                                    </span>
+                                        
+                                            </div>
+                                              
+                    <div class = headMenu style="margin-top:0; font-size:30px; height:auto; overflow:hidden; text-align:center; color:white;"  >
+                        <span class="label label-success"><a href="{% url 'edit' %}">
+                          EDIT
+                                </a>
+                                    </span>
+                                        
+                                            </div> 
+                    <div class = headMenu style="margin-top:0; font-size:30px; height:auto; overflow:hidden;" >
+                        <span class="label label-primary">
+                            <o>
+                                {{ user.username }}
+                                    </span>
+                                        </o>
+                                            </div> 
+                    <div class = headMenu>                        
+                        <img src="{{MEDIA_URL}}{{user.Profile_image}}">
+                            </div>
                       
                         
                       
                     {%  else %}    
-                        <form id="login_form" method="post" action="{% url 'login' %}">
+                            
+                       <form id="login_form" method="post" action="{% url 'login' %}">
                         {% csrf_token %}
-                        <div class = headMenu  ><t>  <input type="submit" value="login" /></t></div>
-                        <div class = headMenu  > Password: <input type="password" name="password" value="" size="30" /></div>
-                        <div class = headMenu  > E-mail: <input type="text" name="email" value="" size="30" /></div>
+                        <div class = headMenu  ><t>  <button class="btn btn-primary" type="submit">Sign in</button></t></div>
+                        <div class = headMenu  >
+                            
+                            <input type="password" name="password" size="30" Placeholder="Password"/>
+                        </div>
+                        <div class = headMenu  > <input type="text" name="email" value="" size="30" Placeholder="Email"/></div>
                         </form>
                     {% endif %}
                     <HR COLOR="green" WIDTH="100%">
@@ -58,8 +89,7 @@
                 {% block body_block %}    
                
                {% endblock %}
-                
-            </div>
+   </div>
             <div id = footer>
                 {% block bottommanu_block %} 
                 
@@ -74,7 +104,12 @@
                 {% endblock %}           
             </div>
        </div>
-       
-    </body>
-    
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>   
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+  </body>
 </html>
