@@ -52,6 +52,9 @@ def register(request):
     registered = False
     if request.method == 'POST':
         user_form = MyUserCreationForm(data=request.POST)
+      
+        
+        print("email")
         if user_form.is_valid():       
            
             user = user_form.save()
@@ -63,9 +66,10 @@ def register(request):
                     user.save()
                     registered = True
         
-        else:
-           messages.warning(request, user_form.errors, extra_tags='alert') 
+       
            
+        else:   
+           messages.warning(request,"Make you sure to use GU ID", extra_tags='alert') 
            return redirect('/LanguageExchange/')
     else:
         user_form = MyUserCreationForm()

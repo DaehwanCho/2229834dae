@@ -113,5 +113,6 @@ class MyUserCreationForm(UserCreationForm):
         if not self.cleaned_data['email'].endswith('gla.ac.uk'):
            raise forms.ValidationError('You need to use GU ID')
         return self.cleaned_data['email']
-        
+    
+    
    
