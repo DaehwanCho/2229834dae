@@ -14,17 +14,39 @@ from django.contrib import messages
 from django.shortcuts import redirect
 from django import forms
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.mail import send_mail
 
 def about(request):
-    
-    return render(request, 'LanguageExchange/about.html')
+    about=False
+    return render(request, 'LanguageExchange/about.html', {"about":about})
 
 def contact(request):
    
     return render(request, 'LanguageExchange/contact.html')    
 
+    
+def FAQs(request):
+   
+    return render(request, 'LanguageExchange/FAQs.html')    
 
-  
+    
+def send(request):
+   
+    
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        fromEmail = request.POST.get('fromEmail')
+        comment = request.POST.get('comment')
+        send_mail(name,comment,fromEmail,['mrsuccess1203@gmail.com'],fail_silently=False)
+            
+           
+    return  HttpResponseRedirect(reverse('contact'))
+                  
+def privacy(request):
+   
+    return render(request, 'LanguageExchange/privacy.html')    
+
+ 
 
 def register(request):
     registered = False
@@ -32,8 +54,6 @@ def register(request):
         user_form = MyUserCreationForm(data=request.POST)
         if user_form.is_valid():       
            
-                 
-            
             user = user_form.save()
             user.save()
                 
@@ -101,6 +121,7 @@ def edit_information(request):
              
 def user_login(request):
     if request.method == 'POST':
+        
         username = request.POST.get('email')
         password = request.POST.get('password')
         user = authenticate(username=username, password=password)
@@ -109,19 +130,16 @@ def user_login(request):
             if user.is_active:
               
                 login(request, user)
-                return HttpResponseRedirect(reverse('index'))
+                return HttpResponseRedirect(reverse('register'))	
            
-            else:
-                messages.warning(request, user_form.errors, extra_tags='alert') 
+            else: 
                 return HttpResponseRedirect(reverse('register'))	
         else:
-            
-            messages.warning(request, user_form.errors, extra_tags='alert') 
             return HttpResponseRedirect(reverse('register'))	
    
     else:
      
-        return render(request, 'LanguageExchange/login.html', {})
+        return HttpResponseRedirect(reverse('register'))	
 
 @login_required
 def user_logout(request):
@@ -131,19 +149,16 @@ def user_logout(request):
     # take user back to homepage
     return HttpResponseRedirect(reverse('register'))	
 
-class MyRegistrationView(RegistrationView):
-    def get_success_url(self,user):
-        return '/LanguageExchange/'
 
         
 
 
                 
 #@login_required 
-def index(request):
+def search(request):
     searched = False
-    form = SearchForm(request.GET or None) 
    
+    form = SearchForm(request.GET or None) 
     if request.method == "GET" and form.is_valid():
         
         myuser_qs = MyUser.objects.all()
@@ -157,7 +172,7 @@ def index(request):
         myuser_qs = MyUser.objects.filter(Q(Mother_language__contains=Mother_language)|Q(Nationality__contains=Nationality)).distinct()
         
         
-        paginator = Paginator( myuser_qs, 3)
+        paginator = Paginator( myuser_qs, 4)
         page = request.GET.get('page')
         searched = True
         try:
@@ -168,10 +183,10 @@ def index(request):
             users = paginator.page(paginator.num_pages)
 
         
-        return render(request, "LanguageExchange/index.html",{'Result': users,"searched":searched,})
+        return render(request, "LanguageExchange/user_list.html",{'Result': users,"searched":searched,})
     
 
-    return render(request, "LanguageExchange/index.html", { "form": form,"searched":searched})
+    return render(request, "LanguageExchange/search.html", { "form": form,"searched":searched})
     
     
   

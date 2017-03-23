@@ -32,8 +32,7 @@ class UserCreationForm(forms.ModelForm):
         fields = ('email','username','Mother_language','Nationality','Wish_language','Profile_image','status_message')
         
         
-        
-        
+
         
 
     
