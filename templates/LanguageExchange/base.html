@@ -1,35 +1,20 @@
 {% load staticfiles %}
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-    
-   
+  {% block head_block %}   
+   <head>
         <!-- /.website title -->
         <title>Language Exchange</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
-        
-        
-        
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">  
         <!-- Mobile Specific -->
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-<meta name="description" content="Download Free Bootstrap Templates and themes for your next web project. ">
-
-<meta name="keywords" content="free Bootstrap themes,  free Bootstrap templates,  free Bootstrap slider">
-
-<!-- CSS Style -->
-
-<link rel="stylesheet" href="http://bootstrapthemes.co/wp-content/plugins/fbar/css/frame.css">
-
-<!-- Favicons -->
-
-<link rel="shortcut icon" href="https://bootstrapthemes.co/wp-content/uploads/2017/01/12">
-
-
-        
-        <!-- CSS Files -->
-        
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta name="description" content="Download Free Bootstrap Templates and themes for your next web project. ">
+        <meta name="keywords" content="free Bootstrap themes,  free Bootstrap templates,  free Bootstrap slider">
+        <!-- CSS Style -->
+        <link rel="stylesheet" href="http://bootstrapthemes.co/wp-content/plugins/fbar/css/frame.css">
+        <!-- Favicons -->
+        <link rel="shortcut icon" href="https://bootstrapthemes.co/wp-content/uploads/2017/01/12">        
+        <!-- CSS Files -->        
         <link href={% static "css/FAQsStyle.css.css" %} rel="stylesheet" media="screen">
         <link href={% static "css/bootstrap.min.css" %} rel="stylesheet" media="screen">
         <link href={% static "css/font-awesome.min.css"  %}rel="stylesheet">
@@ -39,26 +24,12 @@
         <link href={% static "css/owl.carousel.css"  %} rel="stylesheet">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
         <!-- Colors -->
-        <link href= {% static  "css/css-index.css"%}  rel="stylesheet" media="screen">
-        <!-- <link href="css/css-index-green.css" rel="stylesheet" media="screen"> -->
-        <!-- <link href="css/css-index-purple.css" rel="stylesheet" media="screen"> -->
-        <!-- <link href="css/css-index-red.css" rel="stylesheet" media="screen"> -->
-        <!-- <link href="css/css-index-orange.css" rel="stylesheet" media="screen"> -->
-        <!-- <link href="css/css-index-yellow.css" rel="stylesheet" media="screen"> -->
-        
-           
-        
+        <link href= {% static  "css/css-index.css"%}  rel="stylesheet" media="screen">     
         <!-- Google Fonts -->
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic" />
-
     </head>
-
-    
-    
-    
-    
-    
-   
+    {% endblock %}   
+ 
          {% block topmanu_block %}
     <!-- NAVIGATION -->
         <div id="menu">
@@ -77,9 +48,6 @@
                             <a href="{% url 'search' %}">Search</a></div>
                               <div style="float:right;margin-left:20px;margin-top:15px">
                             <a href="{% url 'about' %}">About</a></div>
-                         
-           
-    
              </div>
        
   
@@ -97,7 +65,8 @@
                     </div> 
                   
                  
-      {% else %}
+     {% else %}
+            
                  <form id="login_form" method="post" action="{% url 'login' %}">
                         {% csrf_token %}
                         
@@ -110,59 +79,18 @@
                <input name="password" value="" size="20" placeholder="Password" style="float:right; margin-right:0px;margin-top:10px ; " type="password">
                        
                         
-                   <input name="email" value="" size="20" placeholder="Email" style="margin-top:10px;margin-right:20px; ;float:right;" type="text">
-                          
-                   
-                       
+                   <input name="email" value="" size="20" placeholder="Email" style="margin-top:10px;margin-right:20px; ;float:right;" type="text">       
                         </form>
-
-    
-    {% endif %}
-       
-                    </div>
-                    
+    {% endif %}      
+                    </div>                  
                 </div>
             </nav>
         </div>
-    
-
-     
-       
-
-       
-</div>
-
-
-
+    </div>
 {% endblock %}
-    
-    
-    
-    
-    
-    
-   
-    
-  
-
-                        <!-- /.signup form -->
-        {% block body_block %}
-        
-
-            
-
-       
-                        
-                        
-                        
-                        
+              
+        {% block body_block %}   
         {% endblock %}
-                       
-
-          
-      
-        
-            
         
             <div class="container" >
                 <div class="row">
@@ -189,13 +117,10 @@
 
        
 
-        <!-- /.javascript files -->
+        
         <!-- JavaScript -->
-
         <script type="text/javascript" src="http://bootstrapthemes.co/wp-content/plugins/fbar/js/jquery-1.9.1.min.js"></script>
-
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.js"></script>
-
         <script src="http://bootstrapthemes.co/wp-content/plugins/fbar/js/custom.js"></script>
         <script src={% static "js/jquery.js"%} ></script>
         <script src={% static "js/bootstrap.min.js"%} ></script>

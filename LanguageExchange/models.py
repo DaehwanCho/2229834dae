@@ -9,8 +9,7 @@ class MyUserManager(BaseUserManager):
         
         if not email:
             raise ValueError('Users must have an email address')
-        if email.startswith("2"):
-            raise ValueError('Users must have an email address')
+       
 
         user = self.model(
             email=self.normalize_email(email),
@@ -188,6 +187,7 @@ Language_list=( ("","Please Select"),
 Country_choice=(("","Please Select"),
 ('AFGHANISTAN','Afghanistan'),
 ('ALBANIA','Albania'),
+('AMHARIC','Amharic'),
 ('ALGERIA','Algeria'),
 ('ANDORRA','Andorra'),
 ('ANGOLA','Angola'),
@@ -385,6 +385,8 @@ Country_choice=(("","Please Select"),
 
 )
 
+
+
 class MyUser(AbstractBaseUser):
     email = models.EmailField(
         verbose_name='Email',
@@ -398,7 +400,7 @@ class MyUser(AbstractBaseUser):
     Wish_language =models.CharField(max_length = 30,choices= Language_list,null = False)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
-    Profile_image = models.ImageField(upload_to='profile_images',blank=True)
+    Profile_image = models.ImageField(upload_to='profile_images',blank=True, )
     status_message=models.CharField(max_length = 500,null = True)
     objects = MyUserManager()
     
@@ -407,7 +409,7 @@ class MyUser(AbstractBaseUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username','Nationality','Mother_language','Wish_language','Profile_image','status_message']
         
-    
+   
     
     def set_Profile_image(self):
        self.has_Profile_image = True
@@ -415,11 +417,11 @@ class MyUser(AbstractBaseUser):
     def get_full_name(self):
        
         return self.email
-
+  
     def get_short_name(self):
        
         return self.email
-
+    
     def __str__(self):             
         return self.email
 

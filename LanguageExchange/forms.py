@@ -61,7 +61,7 @@ class UserChangeForm(forms.ModelForm):
 
     class Meta:
         model = MyUser
-        fields = (  'Mother_language','Wish_language','Profile_image','status_message')
+        fields = (  'username','Mother_language','Wish_language','Profile_image','status_message')
 
     def clean(self):
             if 'password1' in self.cleaned_data and 'password2' in self.cleaned_data:
@@ -70,7 +70,7 @@ class UserChangeForm(forms.ModelForm):
                 elif len(self.cleaned_data['password1']) < 8:
                     raise forms.ValidationError('Password too short, more than 8 charecters')
             return self.cleaned_data
-
+     
     def save(self, commit=True):
             UserUpdate = super(UserChangeForm, self).save(commit=False)
             UserUpdate.set_password=self.cleaned_data['password1']
@@ -113,6 +113,10 @@ class MyUserCreationForm(UserCreationForm):
         if not self.cleaned_data['email'].endswith('gla.ac.uk'):
            raise forms.ValidationError('You need to use GU ID')
         return self.cleaned_data['email']
+        
+    def clean_unsername(self):
+        
+        return self.cleaned_data['username'].upper()
     
     
    
